@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/posts.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="manifest" href="../manifest.json">
+    <link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
+    <title>Explore Posts</title>
+</head>
+<body>
+    <header>
+        <a href="/" class="logo">PhotoHub</a>
+        <div class="user-section">
+            <span>
+                Hi, <%= user.name %>
+            </span>
+            <a href="/logout"><i class="fas fa-sign-out-alt"></i></a>
+        </div>
+    </header>
+    
+    <main>
+        <section class="add-post">
+            <a href="/new-post" class="add-post-button">Add New Post</a>
+        </section>
+
+        <h2>Explore Posts</h2>
+        <section class="posts">
+            <% for (post of posts) { %>
+            <a href=<%= "/posts/" + post.id%>>
+                <div class="post">
+                    <img src=<%= post.imageUrl %> alt="Post Image">
+                    
+                    <div class="post-info">
+                        <div class="likes">
+                            <button class="like-button">
+                                <% if (post.userLiked) { %>
+                                    <i class="fas fa-heart"></i> <!-- Filled heart icon (hidden by default) -->
+                                <% } else { %>
+                                    <i class="far fa-heart"></i> <!-- Outlined heart icon -->
+                                <% } %>
+                            </button>
+                            <span class="likes-count"><%= post.likes %></span>
+                        </div>
+        
+                        <div class="author-info">
+                            <p class="author"><%= post.author %></p>
+                            <p class="date"><%= post.dateString %></p>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <% } %>
+        </section>
+    </main>
+
+    <script>
+        navigator.serviceWorker
+            .register("../scripts/sw.js", { type: "module" })
+            .then((reg) => console.log("SW registered!", reg))
+            .catch((err) =>
+                console.error("Error registering service worker", err)
+            );
+    </script>
+</body>
+</html>
